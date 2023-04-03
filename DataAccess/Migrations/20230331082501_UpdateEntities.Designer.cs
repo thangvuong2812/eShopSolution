@@ -4,14 +4,16 @@ using DataAccess.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    partial class EShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230331082501_UpdateEntities")]
+    partial class UpdateEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,26 +40,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("SysId");
 
                     b.ToTable("AppConfigs");
-
-                    b.HasData(
-                        new
-                        {
-                            SysId = 1L,
-                            Key = "HomeTitle",
-                            Value = "This is home page of eShopSolution"
-                        },
-                        new
-                        {
-                            SysId = 2L,
-                            Key = "HomeKeyword",
-                            Value = "This is keyword of eShopSolution"
-                        },
-                        new
-                        {
-                            SysId = 3L,
-                            Key = "HomeDescription",
-                            Value = "This is description of eShopSolution"
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.Cart", b =>
@@ -120,22 +102,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            IsShowOnHome = true,
-                            SortOrder = 1,
-                            Status = 0
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            IsShowOnHome = true,
-                            SortOrder = 2,
-                            Status = 0
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.CategoryTranslation", b =>
@@ -181,48 +147,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("LanguageId");
 
                     b.ToTable("CategoryTranslations");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CategoryId = 1L,
-                            LanguageId = "vi",
-                            Name = "Áo nam",
-                            SeoAlias = "ao-nam",
-                            SeoDescription = "Sản phẩm áo thời trang nam",
-                            SeoTitle = "Sản phẩm áo thời trang nam"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            CategoryId = 1L,
-                            LanguageId = "en",
-                            Name = "Men Shirt",
-                            SeoAlias = "men-shirt",
-                            SeoDescription = "The shirt products for men",
-                            SeoTitle = "The shirt products for men"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            CategoryId = 2L,
-                            LanguageId = "vi",
-                            Name = "Áo nữ",
-                            SeoAlias = "ao-nu",
-                            SeoDescription = "Sản phẩm áo thời trang nữ",
-                            SeoTitle = "Sản phẩm áo thời trang women"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            CategoryId = 2L,
-                            LanguageId = "en",
-                            Name = "Women Shirt",
-                            SeoAlias = "women-shirt",
-                            SeoDescription = "The shirt products for women",
-                            SeoTitle = "The shirt products for women"
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.Contact", b =>
@@ -281,20 +205,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("Id");
 
                     b.ToTable("Languages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "vi",
-                            IsDefault = true,
-                            Name = "Tiếng Việt"
-                        },
-                        new
-                        {
-                            Id = "en",
-                            IsDefault = false,
-                            Name = "English"
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.Order", b =>
@@ -412,17 +322,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("Id");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            DateCreated = new DateTime(2023, 3, 31, 16, 48, 0, 432, DateTimeKind.Local).AddTicks(6345),
-                            OriginalPrice = 100000m,
-                            Price = 200000m,
-                            Stock = 0,
-                            ViewCount = 0
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.ProductInCategory", b =>
@@ -449,14 +348,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("SysId");
 
                     b.ToTable("ProductInCategories");
-
-                    b.HasData(
-                        new
-                        {
-                            SysId = 1L,
-                            CategoryId = 1L,
-                            ProductId = 1L
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.ProductTranslation", b =>
@@ -577,108 +468,6 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            ConcurrencyStamp = "25facf9d-fa72-4f06-8eed-025347f2a597",
-                            Description = "Administrator role",
-                            Name = "admin",
-                            NormalizedName = "admin"
-                        });
-                });
-
-            modelBuilder.Entity("DataAccess.Models.Slide", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Slide");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/1.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 1,
-                            Status = 0,
-                            Url = "#"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/2.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 2,
-                            Status = 0,
-                            Url = "#"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/3.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 3,
-                            Status = 0,
-                            Url = "#"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/4.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 4,
-                            Status = 0,
-                            Url = "#"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/5.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 5,
-                            Status = 0,
-                            Url = "#"
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/6.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 6,
-                            Status = 0,
-                            Url = "#"
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.Transaction", b =>
@@ -787,27 +576,6 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "7c1f232f-4652-45c3-8878-a92b35906290",
-                            DOB = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "tedu.international@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Toan",
-                            LastName = "Bach",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "tedu.international@gmail.com",
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAENaR1rwrOlbQFKGcRWDKjxkmt9MwLmSLls2RuIT8dVIsFgPhZsdGAv6w8QPfhfqjtg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.UserRole", b =>
@@ -834,14 +602,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            SysId = 1L,
-                            RoleId = 1L,
-                            UserId = 1L
-                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.Cart", b =>

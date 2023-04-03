@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DataAccess.Models
 {
-    public class UserRole
+    public class UserRole : IdentityUserRole<long>
     {
-        public long Id { set; get; }
-        public long UserId { set; get; }
-        public long RoleId { set; get; }
+        public long SysId { set; get; }
+   
+        public Role Role { get; set; }
+        public User User { get; set; }
     }
 }

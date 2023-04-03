@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20230331082120_UpdateEntities.cs" />
+    <Compile Remove="Migrations\20230331082120_UpdateEntities.Designer.cs" />
+    <Compile Remove="Migrations\20230331084100_re-initial.cs" />
+    <Compile Remove="Migrations\20230331084100_re-initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="BusinessObjects\" />
   </ItemGroup>
 

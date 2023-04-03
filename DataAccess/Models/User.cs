@@ -12,8 +12,10 @@ namespace DataAccess.Models
         public string LastName { get; set; }
         public DateTime? DOB { set; get; }
 
-        public List<Cart> Carts { get; set; }
-        public List<Order> Orders { get; set; }
-        public List<Transaction> Transactions { get; set; }
+        public ICollection<Cart> Carts { get; set; }
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
+
     }
 }

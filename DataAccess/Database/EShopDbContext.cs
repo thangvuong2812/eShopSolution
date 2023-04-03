@@ -1,4 +1,5 @@
 ﻿using DataAccess.Configurations;
+using DataAccess.Extensions;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,8 @@ namespace DataAccess.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
+
+            ////Configure using Fluent API
             modelBuilder.ApplyConfiguration(new CartConfiguration());
 
             modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
@@ -41,6 +44,11 @@ namespace DataAccess.Database
             modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+
+
+            //Seeding Data
+            modelBuilder.Seed();
             //base.OnModelCreating(modelBuilder);    
         }
 
@@ -58,14 +66,14 @@ namespace DataAccess.Database
         public DbSet<Promotion> Promotions { set; get; }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    base.OnConfiguring(optionsBuilder);
 
-            IConfiguration configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
-            string connStr = configuration.GetConnectionString("EShopURL");
+        //    IConfiguration configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+        //    string connStr = configuration.GetConnectionString("EShopURL");
 
-            optionsBuilder.UseLoggerFactory(loggerFactory).UseSqlServer(connStr);
-        }
+        //    optionsBuilder.UseLoggerFactory(loggerFactory).UseSqlServer(connStr);
+        //}
     }
 }

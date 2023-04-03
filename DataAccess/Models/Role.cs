@@ -5,8 +5,10 @@ using System.Text;
 
 namespace DataAccess.Models
 {
-    public class Role : IdentityRole<int>
+    public class Role : IdentityRole<long>
     {
         public string Description { set; get; }
+
+        public ICollection<UserRole> UserRoles { get; set; }
     }
 }
