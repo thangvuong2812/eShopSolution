@@ -1,6 +1,8 @@
 ﻿using DataAccess.Configurations;
 using DataAccess.Extensions;
 using DataAccess.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -11,7 +13,7 @@ using System.Text;
 
 namespace DataAccess.Database
 {
-    public class EShopDbContext : DbContext
+    public class EShopDbContext : IdentityDbContext<User,Role, long, IdentityUserClaim<long>, UserRole, IdentityUserLogin<long>, IdentityRoleClaim<long>, IdentityUserToken<long>>
     {
         private static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
         {
@@ -46,25 +48,41 @@ namespace DataAccess.Database
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
 
+            modelBuilder.Entity<IdentityUserClaim<long>>().ToTable("AppUserClaims");
+            modelBuilder.Entity<IdentityRoleClaim<long>>().ToTable("AppRoleClaims");
+
+            modelBuilder.Entity<IdentityUserLogin<long>>().ToTable("AppUserLogins").HasKey(o => o.UserId);
+            modelBuilder.Entity<IdentityUserToken<long>>().ToTable("AppUserTokens").HasKey(o => o.UserId);
 
             //Seeding Data
             modelBuilder.Seed();
-            //base.OnModelCreating(modelBuilder);    
+            //base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<User> Users { set; get; }
-        public DbSet<Product> Products { set; get; }
-        public DbSet<ProductTranslation> ProductTranslations { set; get; }
-        public DbSet<UserRole> UserRoles { set; get; }
-        public DbSet<Cart> Carts { set; get; }
-        public DbSet<Role> Roles { set; get; }
-        public DbSet<CategoryTranslation> CategoryTranslations { set; get; }
-        public DbSet<Language> Languages { set; get; }
-        public DbSet<Order> Orders { set; get; }
-        public DbSet<OrderDetail> OrderDetails { set; get; }
-        public DbSet<Transaction> Transactions { set; get; }
-        public DbSet<Promotion> Promotions { set; get; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
+        public DbSet<AppConfig> AppConfigs { get; set; }
+
+        public DbSet<Cart> Carts { get; set; }
+
+        public DbSet<CategoryTranslation> CategoryTranslations { get; set; }
+        public DbSet<ProductInCategory> ProductInCategories { get; set; }
+
+        public DbSet<Contact> Contacts { get; set; }
+
+        public DbSet<Language> Languages { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<ProductTranslation> ProductTranslations { get; set; }
+
+        public DbSet<Promotion> Promotions { get; set; }
+
+        public DbSet<Transaction> Transactions { get; set; }
+
+        public DbSet<Slide> Slides { get; set; }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

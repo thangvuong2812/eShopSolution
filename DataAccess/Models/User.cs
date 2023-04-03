@@ -17,5 +17,6 @@ namespace DataAccess.Models
         public ICollection<Transaction> Transactions { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
 
+
     }
 }

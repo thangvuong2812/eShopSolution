@@ -14,12 +14,12 @@ namespace DataAccess.Configurations
 
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
-            builder.ToTable("UserRoles").HasKey(o => o.SysId);
+            builder.ToTable("AppUserRoles").HasKey(o => o.SysId);
             builder.HasIndex(o => o.SysId);
             builder.Property(o => o.SysId).UseIdentityColumn();
           
-            builder.HasOne(o => o.User).WithMany(o => o.UserRoles).HasForeignKey(o => o.UserId);
-            builder.HasOne(o => o.Role).WithMany(o => o.UserRoles).HasForeignKey(o => o.RoleId);
+            //builder.HasOne(o => o.User).WithMany(o => o.UserRoles).HasForeignKey(o => o.UserId);
+            //builder.HasOne(o => o.Role).WithMany(o => o.UserRoles).HasForeignKey(o => o.RoleId);
         }
     }
 }

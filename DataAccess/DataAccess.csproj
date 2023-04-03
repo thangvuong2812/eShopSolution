@@ -9,10 +9,19 @@
     <Compile Remove="Migrations\20230331082120_UpdateEntities.Designer.cs" />
     <Compile Remove="Migrations\20230331084100_re-initial.cs" />
     <Compile Remove="Migrations\20230331084100_re-initial.Designer.cs" />
+    <Compile Remove="Migrations\20230403034054_init-identity.cs" />
+    <Compile Remove="Migrations\20230403034054_init-identity.Designer.cs" />
+    <Compile Remove="Migrations\20230403041449_reinitdb.cs" />
+    <Compile Remove="Migrations\20230403041449_reinitdb.Designer.cs" />
+    <Compile Remove="Migrations\20230403041858_reinit-d.cs" />
+    <Compile Remove="Migrations\20230403041858_reinit-d.Designer.cs" />
+    <Compile Remove="Migrations\20230403042607_new-mig.cs" />
+    <Compile Remove="Migrations\20230403042607_new-mig.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="BusinessObjects\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
