@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using eShopSolution.Utilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -20,9 +21,9 @@ namespace DataAccess.Database
         {
             var optionBuilder = new DbContextOptionsBuilder<EShopDbContext>();
 
-            IConfiguration configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
-            string connStr = configuration.GetConnectionString("EShopURL");
-            optionBuilder.UseLoggerFactory(loggerFactory).UseSqlServer(connStr);
+            //IConfiguration configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+            //string connStr = configuration.GetConnectionString("EShopURL");
+            optionBuilder.UseLoggerFactory(loggerFactory).UseSqlServer(Constant.BASE_URL);
 
             return new EShopDbContext(optionBuilder.Options);
         }

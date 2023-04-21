@@ -417,12 +417,58 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = 1L,
-                            DateCreated = new DateTime(2023, 4, 3, 11, 32, 33, 479, DateTimeKind.Local).AddTicks(2783),
+                            DateCreated = new DateTime(2023, 4, 17, 13, 28, 39, 810, DateTimeKind.Local).AddTicks(8187),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,
                             ViewCount = 0
                         });
+                });
+
+            modelBuilder.Entity("DataAccess.Models.ProductImage", b =>
+                {
+                    b.Property<long>("SysId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Caption")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<long?>("CreatedByUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ImgPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("SysId");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SysId");
+
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("DataAccess.Models.ProductInCategory", b =>
@@ -509,6 +555,32 @@ namespace DataAccess.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductTranslations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Description = "Áo sơ mi nam trắng Việt Tiến",
+                            Details = "Áo sơ mi nam trắng Việt Tiến",
+                            LanguageId = "vi",
+                            Name = "Áo sơ mi nam trắng Việt Tiến",
+                            ProductId = 1L,
+                            SeoAlias = "ao-so-mi-nam-trang-viet-tien",
+                            SeoDescription = "Áo sơ mi nam trắng Việt Tiến",
+                            SeoTitle = "Áo sơ mi nam trắng Việt Tiến"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Description = "Viet Tien Men T-Shirt",
+                            Details = "Viet Tien Men T-Shirt",
+                            LanguageId = "en",
+                            Name = "Viet Tien Men T-Shirt",
+                            ProductId = 1L,
+                            SeoAlias = "viet-tien-men-t-shirt",
+                            SeoDescription = "Viet Tien Men T-Shirt",
+                            SeoTitle = "Viet Tien Men T-Shirt"
+                        });
                 });
 
             modelBuilder.Entity("DataAccess.Models.Promotion", b =>
@@ -582,7 +654,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "db95590f-8f62-41ae-9e43-667d48454e20",
+                            ConcurrencyStamp = "057fb044-a21a-44ba-b01e-0bdd23c43bdd",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -793,7 +865,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 1L,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "44cf4790-63c0-42be-8f25-4cd73113922f",
+                            ConcurrencyStamp = "3deeeb16-c369-4c48-84b6-a33e84a06fd4",
                             DOB = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tedu.international@gmail.com",
                             EmailConfirmed = true,
@@ -802,7 +874,7 @@ namespace DataAccess.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tedu.international@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM2gLKfE1T2ZxuXMutlnElqA4AZCUPhEM2Cfl1th/dUCcd6LOMs9bzTbQ8Liy9MBww==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHTB+9M2VWQ9ZA48BQfSDXXXaGHUXeRXxR8IAPV7xgpBrm3NXBmGrOHaC5+FAJlLEg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -977,6 +1049,19 @@ namespace DataAccess.Migrations
 
                     b.HasOne("DataAccess.Models.Product", "Product")
                         .WithMany("OrderDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccess.Models.ProductImage", b =>
+                {
+                    b.HasOne("DataAccess.Models.User", "User")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("CreatedByUserId");
+
+                    b.HasOne("DataAccess.Models.Product", "Product")
+                        .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

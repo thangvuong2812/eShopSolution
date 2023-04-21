@@ -27,7 +27,7 @@ namespace DataAccess.Extensions
             new UserBuilderExtension().Seed(modelBuilder);
             new UserRoleBuilderExtension().Seed(modelBuilder);
 
-
+            new ProductTranslationBuilderExtension().Seed(modelBuilder);
         }
     }
 }

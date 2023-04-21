@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace DataAccess.Database
@@ -47,13 +48,19 @@ namespace DataAccess.Database
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
-
+            modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
             modelBuilder.Entity<IdentityUserClaim<long>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityRoleClaim<long>>().ToTable("AppRoleClaims");
 
             modelBuilder.Entity<IdentityUserLogin<long>>().ToTable("AppUserLogins").HasKey(o => o.UserId);
             modelBuilder.Entity<IdentityUserToken<long>>().ToTable("AppUserTokens").HasKey(o => o.UserId);
 
+            //foreach (var property in modelBuilder.Model.GetEntityTypes()
+            //   .SelectMany(t => t.GetProperties())
+            //   .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
+            //{
+            //    property.SetColumnType("decimal(18,2)");
+            //}
             //Seeding Data
             modelBuilder.Seed();
             //base.OnModelCreating(modelBuilder);
@@ -83,6 +90,7 @@ namespace DataAccess.Database
         public DbSet<Transaction> Transactions { get; set; }
 
         public DbSet<Slide> Slides { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
