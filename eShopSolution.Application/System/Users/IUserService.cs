@@ -10,6 +10,8 @@ namespace eShopSolution.Application.System.Users
     public interface IUserService
     {
         Task<string> Authenticate(LoginRequest loginRequest);
-        Task<IdentityResult> Register(RegisterRequest registerRequest);
+        Task<bool> Register(RegisterRequest registerRequest);
+
+        Task<bool> Authenticate2FA(string token2FA);
     }
 }

@@ -28,8 +28,8 @@ namespace eShopSolution.BackendApi.Controllers
                 return BadRequest(ModelState);
             var token = await _userService.Authenticate(loginRequest);
             if (string.IsNullOrEmpty(token))
-                return BadRequest("Username or password is invalid");
-            return Accepted(new { token });
+                return NotFound("Username or password is invalid");
+            return Ok(token);
         }
 
         [HttpPost("Register")]
@@ -39,11 +39,21 @@ namespace eShopSolution.BackendApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var result = await _userService.Register(registerRequest);
-            if (result.Succeeded)
+            if (result)
                 return Ok();
-            return BadRequest(result.Errors);
+            return BadRequest();
         }
 
-
+        [HttpPost("auth2FA")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Auth2FA([FromBody] ConfirmEmailRequest confirmEmailRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var isSucceed = await _userService.Authenticate2FA(confirmEmailRequest.Code);
+            if (isSucceed)
+                return Ok();
+            return BadRequest();
+        }
     }
 }

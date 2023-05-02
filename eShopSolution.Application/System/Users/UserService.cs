@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using eShopSolution.Application.Services;
 using eShopSolution.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -16,14 +17,16 @@ namespace eShopSolution.Application.System.Users
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IMailService _mailService;
         private readonly RoleManager<Role> _roleManager;
         private readonly IConfiguration _configuration;
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager, IConfiguration configuration)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager, IConfiguration configuration, IMailService mailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _mailService = mailService;
         }
 
         public async Task<string> Authenticate(LoginRequest loginRequest)
@@ -38,7 +41,9 @@ namespace eShopSolution.Application.System.Users
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.GivenName, user.UserName),
+                new Claim(ClaimTypes.GivenName, user.LastName + " " + user.FirstName),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Authentication, user.EmailConfirmed.ToString()),
                 new Claim(ClaimTypes.Role, string.Join(";",roles))
             };
 
@@ -49,7 +54,7 @@ namespace eShopSolution.Application.System.Users
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<IdentityResult> Register(RegisterRequest registerRequest)
+        public async Task<bool> Register(RegisterRequest registerRequest)
         {
 
             var user = new User
@@ -59,11 +64,36 @@ namespace eShopSolution.Application.System.Users
                 Email = registerRequest.Email,
                 LastName = registerRequest.LastName,
                 UserName = registerRequest.UserName,
-                PhoneNumber = registerRequest.PhoneNumber
+                PhoneNumber = registerRequest.PhoneNumber,
+                TwoFactorEnabled = true
             };
             
             var result = await _userManager.CreateAsync(user, registerRequest.Password);
-            return result;
+            if(result.Succeeded)
+            {
+                var token2FA = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
+                var isSucceeded = await _mailService.SendMailTwoFactor(user.Email, token2FA);
+                return isSucceeded;
+            }
+            return false;
+        }
+
+        public async Task<string> GenerateTwoFactorTokenAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return string.Empty;
+            var token2FA = await _userManager.GenerateTwoFactorTokenAsync(user, TokenOptions.DefaultEmailProvider);
+
+            return token2FA;
+        }
+
+        public async Task<bool> Authenticate2FA(string token2FA)
+        {
+
+            //BUG at here
+            var result = await _signInManager.TwoFactorSignInAsync(TokenOptions.DefaultEmailProvider, token2FA, false, false);
+            return result.Succeeded;
         }
     }
 }

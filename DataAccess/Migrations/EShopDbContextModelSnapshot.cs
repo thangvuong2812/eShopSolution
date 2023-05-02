@@ -417,7 +417,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = 1L,
-                            DateCreated = new DateTime(2023, 4, 17, 13, 28, 39, 810, DateTimeKind.Local).AddTicks(8187),
+                            DateCreated = new DateTime(2023, 4, 28, 15, 26, 3, 54, DateTimeKind.Local).AddTicks(712),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,
@@ -654,7 +654,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "057fb044-a21a-44ba-b01e-0bdd23c43bdd",
+                            ConcurrencyStamp = "fd5addf7-c1dc-47d0-a2bf-a2f82da7c42a",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -865,7 +865,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 1L,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3deeeb16-c369-4c48-84b6-a33e84a06fd4",
+                            ConcurrencyStamp = "cca5dac6-8aeb-4976-b327-33e7f082487c",
                             DOB = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tedu.international@gmail.com",
                             EmailConfirmed = true,
@@ -874,7 +874,7 @@ namespace DataAccess.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tedu.international@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHTB+9M2VWQ9ZA48BQfSDXXXaGHUXeRXxR8IAPV7xgpBrm3NXBmGrOHaC5+FAJlLEg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENju824R9tvF0/+LR8TD4vFlZxz5ak27XbpdAKmaOTXbeIqzp9//1eNSDhWkfUjDmw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
